@@ -1,4 +1,4 @@
-# MediNote Reader
+# Pharma AI
 
 A new Flutter app for a pharmacy assistant for the eyes of Mostafa.
 

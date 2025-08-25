@@ -28,6 +28,12 @@ class DomainError {
   static final _locationPermissionIsDeniedErrorMessage =
       "Location permission is denied. Please allow location access and try again.";
 
+  static final _noImageReturnedErrorMessage = "No image returned from scanner.";
+  static final _scannerErrorMessage = "Scanner error!";
+  static final _scannerErrorMessageWithParams = "Scanner error: {error}";
+  static final _cameraPermissionIsDeniedErrorMessage =
+      "Camera permission is denied.";
+
   /// Indicates a connection error, which can occur due to no internet access
   /// or if the server is unreachable (e.g., the server is shut down or refused the connection).
   static DomainError connectionError = DomainError(
@@ -53,6 +59,16 @@ class DomainError {
     );
   }
 
+  static DomainError getScannerError(String error) {
+    final errorPreview =
+        error.length > 100 ? "${error.substring(0, 99)}..." : error;
+    return DomainError(
+      message: _scannerErrorMessage,
+      messageId: _scannerErrorMessageWithParams,
+      params: {"error": errorPreview},
+    );
+  }
+
   static DomainError cancelledRequestError = DomainError(
     message: _cancelledRequestErrorMessage,
     messageId: _cancelledRequestErrorMessage,
@@ -69,6 +85,18 @@ class DomainError {
   static DomainError locationPermissionIsDeniedError = DomainError(
     message: _locationPermissionIsDeniedErrorMessage,
     messageId: _locationPermissionIsDeniedErrorMessage,
+  );
+  static DomainError noImageReturnedError = DomainError(
+    message: _noImageReturnedErrorMessage,
+    messageId: _noImageReturnedErrorMessage,
+  );
+  static DomainError scannerError = DomainError(
+    message: _scannerErrorMessage,
+    messageId: _scannerErrorMessage,
+  );
+  static DomainError cameraPermissionIsDeniedError = DomainError(
+    message: _cameraPermissionIsDeniedErrorMessage,
+    messageId: _cameraPermissionIsDeniedErrorMessage,
   );
 }
 

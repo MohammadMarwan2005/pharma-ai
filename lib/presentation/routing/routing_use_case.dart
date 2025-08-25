@@ -10,8 +10,8 @@ class RoutingUseCase {
   Future<String> getFirstRoute() async {
     final onboarded = _localDataRepo.hasOnboarded();
     if (!onboarded) return Routes.onboarding;
-    final hasToken = await _localDataRepo.hasToken();
-    if (!hasToken) return Routes.login;
-    return Routes.home;
+    // final hasToken = await _localDataRepo.hasToken();
+    // if (!hasToken) return Routes.login;
+    return Routes.scan;
   }
 }

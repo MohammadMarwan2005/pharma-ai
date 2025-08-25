@@ -19,5 +19,9 @@ const Map<String, String> _arLangMap = {
   "English": "الإنجليزية",
   "Current Language": "اللغة الحالية",
   "Hello, Pharma AI!": "مرحبا، Pharma AI!",
-  "Login": "تسجيل الدخول"
+  "Login": "تسجيل الدخول",
+  "No image returned from scanner.": "لم يتم إرجاع صورة من الماسح الضوئي.",
+  "Scanner error!": "خطأ في الماسح الضوئي!",
+  "Scanner error: {error}": "خطأ في الماسح الضوئي: {error}",
+  "Camera permission is denied.": "تم رفض إذن الكاميرا.",
 };

@@ -128,12 +128,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( String imagePath)?  success,TResult Function( DomainError error)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<String> imagesPaths)?  success,TResult Function( DomainError error)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Success() when success != null:
-return success(_that.imagePath);case _Error() when error != null:
+return success(_that.imagesPaths);case _Error() when error != null:
 return error(_that.error);case _:
   return orElse();
 
@@ -152,12 +152,12 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( String imagePath)  success,required TResult Function( DomainError error)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<String> imagesPaths)  success,required TResult Function( DomainError error)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Success():
-return success(_that.imagePath);case _Error():
+return success(_that.imagesPaths);case _Error():
 return error(_that.error);case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +175,12 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( String imagePath)?  success,TResult? Function( DomainError error)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<String> imagesPaths)?  success,TResult? Function( DomainError error)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Success() when success != null:
-return success(_that.imagePath);case _Error() when error != null:
+return success(_that.imagesPaths);case _Error() when error != null:
 return error(_that.error);case _:
   return null;
 
@@ -257,10 +257,16 @@ String toString() {
 
 
 class _Success implements ScanState {
-  const _Success({required this.imagePath});
+  const _Success({required final  List<String> imagesPaths}): _imagesPaths = imagesPaths;
   
 
- final  String imagePath;
+ final  List<String> _imagesPaths;
+ List<String> get imagesPaths {
+  if (_imagesPaths is EqualUnmodifiableListView) return _imagesPaths;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPaths);
+}
+
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
@@ -272,16 +278,16 @@ _$SuccessCopyWith<_Success> get copyWith => __$SuccessCopyWithImpl<_Success>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Success&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Success&&const DeepCollectionEquality().equals(other._imagesPaths, _imagesPaths));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,imagePath);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_imagesPaths));
 
 @override
 String toString() {
-  return 'ScanState.success(imagePath: $imagePath)';
+  return 'ScanState.success(imagesPaths: $imagesPaths)';
 }
 
 
@@ -292,7 +298,7 @@ abstract mixin class _$SuccessCopyWith<$Res> implements $ScanStateCopyWith<$Res>
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) _then) = __$SuccessCopyWithImpl;
 @useResult
 $Res call({
- String imagePath
+ List<String> imagesPaths
 });
 
 
@@ -309,10 +315,10 @@ class __$SuccessCopyWithImpl<$Res>
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? imagePath = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? imagesPaths = null,}) {
   return _then(_Success(
-imagePath: null == imagePath ? _self.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
-as String,
+imagesPaths: null == imagesPaths ? _self._imagesPaths : imagesPaths // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

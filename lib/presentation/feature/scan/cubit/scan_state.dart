@@ -7,6 +7,6 @@ part 'scan_state.freezed.dart';
 class ScanState with _$ScanState {
   const factory ScanState.initial() = _Initial;
   const factory ScanState.loading() = _Loading;
-  const factory ScanState.success({required String imagePath}) = _Success;
+  const factory ScanState.success({required List<String> imagesPaths}) = _Success;
   const factory ScanState.error({required DomainError error}) = _Error;
 }

@@ -24,4 +24,6 @@ const Map<String, String> _arLangMap = {
   "Scanner error!": "خطأ في الماسح الضوئي!",
   "Scanner error: {error}": "خطأ في الماسح الضوئي: {error}",
   "Camera permission is denied.": "تم رفض إذن الكاميرا.",
+  "Order": "الطلب",
+  "Scan": "امسح"
 };

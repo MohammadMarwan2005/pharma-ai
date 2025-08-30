@@ -16,7 +16,7 @@ class ScanCubit extends Cubit<ScanState> {
       final List<String>? images = await CunningDocumentScanner.getPictures();
 
       if (images != null && images.isNotEmpty) {
-        emit(ScanState.success(imagePath: images.first));
+        emit(ScanState.success(imagesPaths: images));
       } else {
         emit(ScanState.error(error: DomainError.noImageReturnedError));
       }

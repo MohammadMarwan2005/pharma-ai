@@ -55,8 +55,8 @@ class ScanScreen extends StatelessWidget {
             state.when(
               initial: () {},
               loading: () {},
-              success: (imagePath) {
-                context.pushRoute(Routes.scanResult, extra: imagePath);
+              success: (imagesPaths) {
+                context.pushRoute(Routes.orderSummary, extra: imagesPaths);
               },
               error: (error) {
                 ScaffoldMessenger.of(context).showSnackBar(

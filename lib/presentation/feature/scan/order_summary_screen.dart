@@ -5,27 +5,29 @@ import 'package:medi_note_reader/presentation/lang/app_localization.dart';
 import 'package:medi_note_reader/presentation/widgets/app_button.dart';
 import 'package:medi_note_reader/presentation/widgets/screen_padding.dart';
 
-class ScanResultScreen extends StatelessWidget {
-  final String imagePath;
+class OrderSummaryScreen extends StatelessWidget {
+  final List<String> imagesPaths;
 
-  const ScanResultScreen({super.key, required this.imagePath});
+  const OrderSummaryScreen({super.key, required this.imagesPaths});
 
   @override
   Widget build(BuildContext context) {
-    final file = File(imagePath);
+    final files = imagesPaths.map((path) => File(path));
     return Scaffold(
-      appBar: AppBar(title: Text("Result".tr(context))),
+      appBar: AppBar(title: Text("Order".tr(context))),
       body: ScreenPadding(
         horizontal: 32,
         vertical: 32,
         child: Center(
           child: Column(
             children: [
-              Expanded(
-                child:
-                    file.existsSync()
-                        ? Image.file(file, fit: BoxFit.contain)
-                        : Center(child: Text("Image not found".tr(context))),
+              ...files.map(
+                (file) => Expanded(
+                  child:
+                      file.existsSync()
+                          ? Image.file(file, fit: BoxFit.contain)
+                          : Center(child: Text("Image not found".tr(context))),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),

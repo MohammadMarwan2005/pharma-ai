@@ -8,7 +8,7 @@ import 'package:medi_note_reader/presentation/routing/routes.dart';
 import '../../common/di/get_it.dart';
 import '../feature/onboarding/onboarding_screen.dart';
 import '../feature/scan/cubit/scan_cubit.dart';
-import '../feature/scan/scan_result_screen.dart';
+import '../feature/scan/order_summary_screen.dart';
 import '../feature/scan/scan_screen.dart';
 
 final GlobalKey<NavigatorState> goRouteRootNavigatorKey =
@@ -35,10 +35,10 @@ final appRouter = GoRouter(
           ),
     ),
     GoRoute(
-      path: Routes.scanResult,
+      path: Routes.orderSummary,
       builder: (context, state) {
-        final imagePath = state.extra as String;
-        return ScanResultScreen(imagePath: imagePath);
+        final imagesPaths = state.extra as List<String>;
+        return OrderSummaryScreen(imagesPaths: imagesPaths);
       },
     ),
   ],

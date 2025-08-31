@@ -1,3 +1,7 @@
+import 'package:medi_note_reader/data/repo/medicine_repo_impl.dart';
+import 'package:medi_note_reader/domain/repo/medicine_repo.dart';
+import 'package:medi_note_reader/domain/repo/order_repo.dart';
+import 'package:medi_note_reader/domain/usecase/get_predictions_for_image.dart';
 import 'package:medi_note_reader/presentation/routing/routing_use_case.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/api/api_service.dart';
 import '../../data/api/safe_api_caller.dart';
+import '../../data/repo/order_repo_impl.dart';
 import '../../domain/repo/local_data_repo.dart';
 import '../../presentation/lang/cubit/lang_cubit.dart';
 
@@ -28,7 +33,11 @@ Future<void> di() async {
     dio.options = BaseOptions(
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
-      headers: {'Accept': 'application/json'},
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        // add this line
+      },
     );
 
     final localDataRepo = getIt<LocalDataRepo>();
@@ -36,7 +45,9 @@ Future<void> di() async {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = await localDataRepo.getToken();
+          // final token = await localDataRepo.getToken();
+          final String? token =
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZG1pbkBnbWFpbC5jb20iLCJqdGkiOiIxNTBmZmM1OC1iMjhlLTQzNzgtYWEwOS0zZjgyZjQ5ZWJhYzgiLCJlbWFpbCI6IkFkbWluQGdtYWlsLmNvbSIsIk5hbWVJZGVudGlmaWVyIjoiODU4MzJlODAtOGU1Zi00MmFlLTgxNTYtMDQ4NGJjY2M2MmUyIiwiZXhwIjoxNzU5MTg5NjI5LCJpc3MiOiJTZWN1cmVBcGkiLCJhdWQiOiJTZWN1cmVBcGlVc2VyIn0.uP0TZE3-5q5_4vwbqGsBz2oIgGAjwZkUQGKjjIbX3c8";
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -61,10 +72,16 @@ Future<void> di() async {
   getIt.registerLazySingleton<SafeAPICaller>(() => SafeAPICaller());
 
   // repos:
-  // getIt.registerLazySingleton<AuthRepo>(() => AuthRepo(getIt(), getIt()));
+  getIt.registerLazySingleton<MedicineRepo>(
+    () => MedicineRepoImpl(getIt(), getIt()),
+  );
+  getIt.registerLazySingleton<OrderRepo>(() => OrderRepoImpl(getIt(), getIt()));
 
   // use cases:
   getIt.registerLazySingleton<RoutingUseCase>(() => RoutingUseCase(getIt()));
+  getIt.registerLazySingleton<GetPredictionsForImagesUseCase>(
+    () => GetPredictionsForImagesUseCase(getIt()),
+  );
 
   // cubits:
   getIt.registerFactory<LangCubit>(() => LangCubit(getIt()));

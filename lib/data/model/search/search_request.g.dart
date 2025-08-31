@@ -1,0 +1,13 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'search_request.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) =>
+    SearchRequest(searchTerm: json['searchTerm'] as String);
+
+Map<String, dynamic> _$SearchRequestToJson(SearchRequest instance) =>
+    <String, dynamic>{'searchTerm': instance.searchTerm};

@@ -20,35 +20,6 @@ class ScanScreen extends StatelessWidget {
     final bottomPadding = screenHeight * 0.15;
     return Scaffold(
       appBar: AppBar(actions: [SwitchThemeWidget()]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: bottomPadding),
-        child: BlocBuilder<ScanCubit, ScanState>(
-          builder: (context, state) {
-            return state.maybeWhen(
-              loading:
-                  () => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  ),
-              orElse: () {
-                return FloatingActionButton.large(
-                  onPressed: () {
-                    cubit.startScanner();
-                  },
-                  shape: const CircleBorder(),
-                  elevation: 8.0,
-                  child: Icon(
-                    Icons.camera_alt,
-                    size: 32,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                );
-              },
-            );
-          },
-        ),
-      ),
       body: SafeArea(
         child: BlocConsumer<ScanCubit, ScanState>(
           listener: (context, state) {
@@ -66,22 +37,59 @@ class ScanScreen extends StatelessWidget {
             );
           },
           builder: (context, state) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.document_scanner,
-                    size: 80,
-                    color: Theme.of(context).colorScheme.onSurface,
+            return Column(
+              children: [
+                Expanded(child: SizedBox()),
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.document_scanner,
+                          size: 80,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          "Point camera to document\nPress center button to scan",
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 12),
-                  Text(
-                    "Point camera to document\nPress center button to scan",
-                    textAlign: TextAlign.center,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: bottomPadding),
+                    child: BlocBuilder<ScanCubit, ScanState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          loading:
+                              () => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                          orElse: () {
+                            return FloatingActionButton.large(
+                              onPressed: () {
+                                cubit.startScanner();
+                              },
+                              shape: const CircleBorder(),
+                              elevation: 8.0,
+                              child: Icon(
+                                Icons.camera_alt,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),

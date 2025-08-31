@@ -14,6 +14,17 @@ sealed class Resource<T> {
         return onError((this as Error<T>).error);
     }
   }
+
+  Resource<T2> mapWhenSuccess<T2>({
+    required T2 Function(T successData) onSuccess,
+  }) {
+    switch (this) {
+      case Success<T> _:
+        return Success(onSuccess((this as Success<T>).data));
+      case Error<T> _:
+        return this as Resource<T2>;
+    }
+  }
 }
 
 class Success<T> extends Resource<T> {

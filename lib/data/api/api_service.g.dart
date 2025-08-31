@@ -10,7 +10,7 @@ part of 'api_service.dart';
 
 class _APIService implements APIService {
   _APIService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://mostafa.ai/api';
+    baseUrl ??= 'http://pharmaai.runasp.net/api';
   }
 
   final Dio _dio;
@@ -18,6 +18,116 @@ class _APIService implements APIService {
   String? baseUrl;
 
   final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<APIResponse<List<DataMedicine>>> getPredictionsForOneImage(
+    FormData formData,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = formData;
+    final _options = _setStreamType<APIResponse<List<DataMedicine>>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://pharmaai.runasp.net/api/Classification/getList',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late APIResponse<List<DataMedicine>> _value;
+    try {
+      _value = APIResponse<List<DataMedicine>>.fromJson(
+        _result.data!,
+        (json) =>
+            json is List<dynamic>
+                ? json
+                    .map<DataMedicine>(
+                      (i) => DataMedicine.fromJson(i as Map<String, dynamic>),
+                    )
+                    .toList()
+                : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<APIResponse<List<DataMedicine>>> searchMedicines(
+    SearchRequest request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<APIResponse<List<DataMedicine>>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://pharmaai.runasp.net/api/Ordering/getMedicinesSelectList',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late APIResponse<List<DataMedicine>> _value;
+    try {
+      _value = APIResponse<List<DataMedicine>>.fromJson(
+        _result.data!,
+        (json) =>
+            json is List<dynamic>
+                ? json
+                    .map<DataMedicine>(
+                      (i) => DataMedicine.fromJson(i as Map<String, dynamic>),
+                    )
+                    .toList()
+                : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<APIResponse<dynamic>> createOrder(OrderRequest orderRequest) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(orderRequest.toJson());
+    final _options = _setStreamType<APIResponse<dynamic>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://pharmaai.runasp.net/api/Ordering/createOrder',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late APIResponse<dynamic> _value;
+    try {
+      _value = APIResponse<dynamic>.fromJson(
+        _result.data!,
+        (json) => json as dynamic,
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&

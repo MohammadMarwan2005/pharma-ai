@@ -98,6 +98,8 @@ class DomainError {
     message: _cameraPermissionIsDeniedErrorMessage,
     messageId: _cameraPermissionIsDeniedErrorMessage,
   );
+
+  static DomainError unImplementedYet = DomainError(message: "Unimplemented yet");
 }
 
 extension X on DomainError {

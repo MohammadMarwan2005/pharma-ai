@@ -43,16 +43,16 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: imageHeight),
-                    AppButton(
-                      onPressed: () {
-                        localDataRepo.setOnboarded();
-                        context.goRoute(Routes.login);
-                      },
-                      text: "Login".tr(context),
-                    ),
+                    // AppButton(
+                    //   onPressed: () {
+                    //     localDataRepo.setOnboarded();
+                    //     context.goRoute(Routes.login);
+                    //   },
+                    //   text: "Login".tr(context),
+                    // ),
                     SizedBox(height: 16),
                     AppButton(
-                      isSecondary: true,
+                      isSecondary: false,
                       onPressed: () {
                         localDataRepo.setOnboarded();
                         context.goRoute(Routes.scan);

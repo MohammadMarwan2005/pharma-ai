@@ -65,11 +65,9 @@ class ScanScreen extends StatelessWidget {
                     child: BlocBuilder<ScanCubit, ScanState>(
                       builder: (context, state) {
                         return state.maybeWhen(
-                          loading:
-                              () => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(),
-                              ),
+                          loading: () => Center(
+                            child: CircularProgressIndicator(),
+                          ),
                           orElse: () {
                             return FloatingActionButton.large(
                               onPressed: () {

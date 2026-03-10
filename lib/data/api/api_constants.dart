@@ -5,4 +5,5 @@ class APIConstants {
   static const getPredictionsUrl = "$baseUrl/Classification/getList";
   static const searchMedicinesUrl = "$baseUrl/Ordering/getMedicinesSelectList";
   static const createOrderUrl = "$baseUrl/Ordering/createOrder";
+  static const loginUrl = "$baseUrl/Auth/login";
 }

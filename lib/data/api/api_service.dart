@@ -6,6 +6,8 @@ import 'package:medi_note_reader/data/model/search/search_request.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+import '../model/auth/auth_data_response.dart';
+import '../model/auth/login_request.dart';
 import 'api_constants.dart';
 
 part 'api_service.g.dart';
@@ -27,4 +29,7 @@ abstract class APIService {
 
   @POST(APIConstants.createOrderUrl)
   Future<APIResponse<dynamic>> createOrder(@Body() OrderRequest orderRequest);
+
+  @POST(APIConstants.loginUrl)
+  Future<APIResponse<AuthDataResponse>> login(@Body() LoginRequest request);
 }

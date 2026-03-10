@@ -11,8 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/api/api_service.dart';
 import '../../data/api/safe_api_caller.dart';
+import '../../data/repo/auth_repo_impl.dart';
 import '../../data/repo/order_repo_impl.dart';
+import '../../domain/repo/auth_repo.dart';
 import '../../domain/repo/local_data_repo.dart';
+import '../../domain/usecase/auto_login_use_case.dart';
 import '../../presentation/lang/cubit/lang_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -45,9 +48,7 @@ Future<void> di() async {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // final token = await localDataRepo.getToken();
-          final String? token =
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZG1pbkBnbWFpbC5jb20iLCJqdGkiOiIxNTBmZmM1OC1iMjhlLTQzNzgtYWEwOS0zZjgyZjQ5ZWJhYzgiLCJlbWFpbCI6IkFkbWluQGdtYWlsLmNvbSIsIk5hbWVJZGVudGlmaWVyIjoiODU4MzJlODAtOGU1Zi00MmFlLTgxNTYtMDQ4NGJjY2M2MmUyIiwiZXhwIjoxNzU5MTg5NjI5LCJpc3MiOiJTZWN1cmVBcGkiLCJhdWQiOiJTZWN1cmVBcGlVc2VyIn0.uP0TZE3-5q5_4vwbqGsBz2oIgGAjwZkUQGKjjIbX3c8";
+          final token = await localDataRepo.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -76,9 +77,11 @@ Future<void> di() async {
     () => MedicineRepoImpl(getIt(), getIt()),
   );
   getIt.registerLazySingleton<OrderRepo>(() => OrderRepoImpl(getIt(), getIt()));
+  getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(getIt(), getIt()));
 
   // use cases:
   getIt.registerLazySingleton<RoutingUseCase>(() => RoutingUseCase(getIt()));
+  getIt.registerLazySingleton<AutoLoginUseCase>(() => AutoLoginUseCase(getIt(), getIt()));
   getIt.registerLazySingleton<GetPredictionsForImagesUseCase>(
     () => GetPredictionsForImagesUseCase(getIt()),
   );
